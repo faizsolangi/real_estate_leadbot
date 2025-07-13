@@ -5,15 +5,30 @@ import pandas as pd
 import requests
 import os
 
-# Set your password
-CORRECT_PASSWORD = "faiz2025"
+import os
 
-# Ask for password
-password = st.text_input("🔐 Enter access password", type="password")
+# Get password from environment or hardcoded (temporary)
+CORRECT_PASSWORD = os.environ.get("APP_PASSWORD", "faiz2025")
 
-if password != CORRECT_PASSWORD:
-    st.warning("Unauthorized. Please enter the correct password to proceed.")
-    st.stop()
+# Initialize session state
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+# Password prompt if not authenticated
+if not st.session_state.authenticated:
+    password = st.text_input("🔐 Enter password to continue", type="password")
+
+    if password == CORRECT_PASSWORD:
+        st.success("✅ Access granted")
+        st.session_state.authenticated = True
+        st.experimental_rerun()  # Refresh to hide password box
+    elif password:
+        st.error("❌ Incorrect password")
+        st.stop()
+else:
+    # User is authenticated — continue with the app
+    pass
+
 # --- Streamlit Page Setup ---
 st.set_page_config(page_title="Real Estate Lead Bot")
 st.title("Real Estate Assistant Bot")
