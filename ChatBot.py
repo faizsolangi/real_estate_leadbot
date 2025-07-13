@@ -5,28 +5,28 @@ import pandas as pd
 import requests
 import os
 
-
-# Get password from environment or hardcoded (temporary)
+# Get password from environment or hardcoded fallback
 CORRECT_PASSWORD = os.environ.get("APP_PASSWORD", "faiz2025")
+
+# Set page config (optional: hides menu, sets title)
+st.set_page_config(page_title="Real Estate LeadBot", page_icon="🏠", layout="centered", initial_sidebar_state="collapsed")
 
 # Initialize session state
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-# Password prompt if not authenticated
+# If not authenticated, show only password screen
 if not st.session_state.authenticated:
-    password = st.text_input("🔐 Enter password to continue", type="password")
+    st.markdown("### 🔐 Secure Access Required")
+    password = st.text_input("Enter password", type="password")
 
     if password == CORRECT_PASSWORD:
-        st.success("✅ Access granted")
         st.session_state.authenticated = True
-        st.rerun()  # Refresh to hide password box
+        st.rerun()
     elif password:
         st.error("❌ Incorrect password")
-        st.stop()
-else:
-    # User is authenticated — continue with the app
-    pass
+    st.stop()  # 👈 Stop everything else from rendering
+
 
 # --- Streamlit Page Setup ---
 st.set_page_config(page_title="Real Estate Lead Bot")
