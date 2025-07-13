@@ -5,9 +5,18 @@ import pandas as pd
 import requests
 import os
 
+# Set your password
+CORRECT_PASSWORD = "faiz2025"
+
+# Ask for password
+password = st.text_input("🔐 Enter access password", type="password")
+
+if password != CORRECT_PASSWORD:
+    st.warning("Unauthorized. Please enter the correct password to proceed.")
+    st.stop()
 # --- Streamlit Page Setup ---
 st.set_page_config(page_title="Real Estate Lead Bot")
-st.title("Assistant Bot")
+st.title("Real Estate Assistant Bot")
 
 # --- Load OpenAI API Key ---
 openai.api_key = st.secrets["OPENAI_API_KEY"]
