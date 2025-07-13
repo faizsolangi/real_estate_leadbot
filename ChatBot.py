@@ -5,7 +5,6 @@ import pandas as pd
 import requests
 import os
 
-import os
 
 # Get password from environment or hardcoded (temporary)
 CORRECT_PASSWORD = os.environ.get("APP_PASSWORD", "faiz2025")
@@ -21,7 +20,7 @@ if not st.session_state.authenticated:
     if password == CORRECT_PASSWORD:
         st.success("✅ Access granted")
         st.session_state.authenticated = True
-        st.experimental_rerun()  # Refresh to hide password box
+        st.rerun()  # Refresh to hide password box
     elif password:
         st.error("❌ Incorrect password")
         st.stop()
